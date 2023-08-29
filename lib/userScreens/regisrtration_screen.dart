@@ -38,7 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       textInputAction: TextInputAction.next,
       validator: (value) {
-        RegExp regExp = new RegExp(r'^.{6,}$');
+        RegExp regExp =   RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Name Cannot be Empty");
         }
@@ -99,7 +99,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       },
       obscureText: true,
       validator: (value) {
-        RegExp regExp = new RegExp(r'^.{6,}$');
+        RegExp regExp = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Password is Required for login");
         }

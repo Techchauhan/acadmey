@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class NavigatorPage extends StatefulWidget {
-  NavigatorPage(this.userid);
+  const NavigatorPage(this.userid, {super.key});
 
   final String? userid;
 

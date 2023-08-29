@@ -43,11 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
         UserCredential result = await _auth.signInWithCredential(credential);
         User? user = result.user;
         return Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NavigatorPage(
-                  user!.uid
-              )), // Replace with your login screen
+          context, MaterialPageRoute(builder: (context) => NavigatorPage(user!.uid)), // Replace with your login screen
           (route) => true, // Remove all previous routes from the stack
         );
       }

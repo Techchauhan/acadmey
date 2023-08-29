@@ -11,13 +11,15 @@ class ViewSlideShow extends StatelessWidget {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<SlideshowImage> slideshowImages = [];
 
+  ViewSlideShow({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: firestore.collection('slideshow').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         var slideshowDocs = snapshot.data!.docs;
@@ -36,7 +38,7 @@ class ViewSlideShow extends StatelessWidget {
               return Container(
                 width: 300,
                 height: 200,
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: Image.network(
                   slideshowImages[index].imageUrl,
                   fit: BoxFit.cover,

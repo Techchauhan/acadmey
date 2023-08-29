@@ -51,13 +51,13 @@ class TeachersListScreen extends StatelessWidget {
           future: fetchTeachers(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator() ,
               );// Loading indicator
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Text('No teachers found.');
+              return const Text('No teachers found.');
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
@@ -65,7 +65,7 @@ class TeachersListScreen extends StatelessWidget {
                   Teacher teacher = snapshot.data![index];
                   return Card(
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -81,7 +81,7 @@ class TeachersListScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(width: 16), // Add space between the sections
+                          const SizedBox(width: 16), // Add space between the sections
                           // Right section: Teacher's information
                           Expanded(
                             child: Column(
@@ -89,16 +89,16 @@ class TeachersListScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   teacher.name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Teaching Subject: ',
                                       style: TextStyle(
                                         fontSize: 14,
@@ -108,17 +108,17 @@ class TeachersListScreen extends StatelessWidget {
                                     ),
                                     Text(
                                       ' ${teacher.teachingSubject} ',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey,
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Qualification:',
                                       style: TextStyle(
                                           fontSize: 14,
@@ -127,7 +127,7 @@ class TeachersListScreen extends StatelessWidget {
                                     ),
                                     Text(
                                       '  ${teacher.qualification} ',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey,
                                       ),
@@ -135,10 +135,10 @@ class TeachersListScreen extends StatelessWidget {
                                   ],
                                 ),
 
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Experience: ',
                                       style: TextStyle(
                                           fontSize: 14,
@@ -147,14 +147,14 @@ class TeachersListScreen extends StatelessWidget {
                                     ),
                                     Text(
                                       '${teacher.teachingExperience}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey,
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -162,7 +162,7 @@ class TeachersListScreen extends StatelessWidget {
                                       // Navigator.pushReplacement(context,
                                       //     MaterialPageRoute(builder: (context)=>TeacherMessagingScreen(currentUser:  FirebaseAuth.instance.currentUser.uid.toString(), otherUser: '')));
                                     },
-                                        icon:  Icon(Icons.chat_outlined))
+                                        icon:  const Icon(Icons.chat_outlined))
 
                                   ],
                                 )

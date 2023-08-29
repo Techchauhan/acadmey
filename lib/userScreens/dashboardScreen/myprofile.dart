@@ -1,4 +1,6 @@
+import 'package:academy/Basic%20Pages/settingPage.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
+import 'package:academy/userScreens/navigator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,7 @@ class _MyProfileState extends State<MyProfile> {
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage(FirebaseAuth.instance.currentUser!.uid) )); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const SettingPage() )); // This pops the current page
         return false; // Return false to prevent app from closing
       },
       child: Scaffold(
@@ -73,7 +75,7 @@ class _MyProfileState extends State<MyProfile> {
                   appBar: AppBar(
                     leading: BackButton(
                       onPressed: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage(FirebaseAuth.instance.currentUser!.uid) )); // This pops the current page
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const SettingPage() )); // This pops the current page
                       },
                     ),
                     backgroundColor: Colors.blue,
@@ -81,7 +83,7 @@ class _MyProfileState extends State<MyProfile> {
                     actions: [
                       InkWell(
                         onTap: () {
-                          AlertDialog(
+                          const AlertDialog(
                             title: Text("Update Info"),
                              actions: [
                                Row(
@@ -99,8 +101,8 @@ class _MyProfileState extends State<MyProfile> {
                           //Handle the report button
                         },
                         child: Container(
-                          padding:   EdgeInsets.only(right: 10),
-                          child:   Row(
+                          padding:   const EdgeInsets.only(right: 10),
+                          child:   const Row(
                             children: [
                               Icon(
                                 Icons.info_outlined, color: Colors.red,
@@ -297,7 +299,7 @@ class MessageBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(10),
@@ -305,32 +307,32 @@ class MessageBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Send a Message',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 10),
-          TextField(
+          const SizedBox(height: 10),
+          const TextField(
             decoration: InputDecoration(
               hintText: 'Type your message...',
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
                 onPressed: onClose, // Close the message box
-                child: Text('Close'),
+                child: const Text('Close'),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Implement sending the message logic here
                 },
-                child: Text('Send'),
+                child: const Text('Send'),
               ),
             ],
           ),

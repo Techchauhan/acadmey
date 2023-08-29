@@ -10,7 +10,7 @@ class GroupChatScreen extends StatefulWidget {
 class _GroupChatScreenState extends State<GroupChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return   Center(
+    return   const Center(
       child: Text("Group Chat"),
     );
   }

@@ -109,9 +109,9 @@ class _LectureVideoScreenState extends State<LectureVideoScreen> {
                 constraints: BoxConstraints(
                   maxHeight: MediaQuery.of(context).size.height * 0.6,
                 ),
-                child: Container(
+                child: const SizedBox(
                   height: 800,
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       children: [

@@ -3,11 +3,8 @@ import 'package:academy/Basic%20Pages/helpSupport.dart';
 import 'package:academy/Basic%20Pages/settingPage.dart';
 import 'package:academy/chat/chatScreen.dart';
 import 'package:academy/course/showallCourse.dart';
-import 'package:academy/learnig/studentCourseScreen.dart';
 import 'package:academy/slideshow/viewSlidewshow.dart';
 import 'package:academy/teachers/allTeacherView.dart';
-import 'package:academy/userScreens/assigmentScreen/assigmentScreen.dart';
-import 'package:academy/course/courseExploreScreen.dart';
 import 'package:academy/userScreens/login_screen.dart';
 import 'package:academy/userScreens/dashboardScreen/myprofile.dart';
 import 'package:academy/widgets/animatedButton.dart';
@@ -75,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                 drawer: Drawer(
                   child: Column(
                     children: [
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       CircleAvatar(
                         minRadius: 30,
                         maxRadius: 30,
@@ -85,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                             : const NetworkImage(
                             'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -105,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                                   fontSize: 20)),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         height: 1,
                       ),
                       DrawerButton(
@@ -143,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                         onPress: () {
 
                           Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => AboutUsPage()));
+                              MaterialPageRoute(builder: (context) => const AboutUsPage()));
                         },
                         icon: Icons.info,
                       ),
@@ -266,9 +263,9 @@ class _HomePageState extends State<HomePage> {
                                                         child: TextField(
                                                           decoration: InputDecoration(
                                                             alignLabelWithHint:  true,
-                                                            contentPadding: EdgeInsets.symmetric(horizontal: 40),
+                                                            contentPadding: const EdgeInsets.symmetric(horizontal: 40),
                                                             hintText: 'Search...',
-                                                            prefixIcon: Icon(Icons.search),
+                                                            prefixIcon: const Icon(Icons.search),
                                                             border: OutlineInputBorder(
                                                               borderRadius: BorderRadius.circular(25),
                                                             ),

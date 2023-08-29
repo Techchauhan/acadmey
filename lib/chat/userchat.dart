@@ -52,12 +52,12 @@ class _UserChatScreenState extends State<UserChatScreen> {
           padding: const EdgeInsets.all(10.0),
           child: TextFormField(
             decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30), // Adjust the radius as needed
                 ),
               hintText: 'Find Your Class Mate',
-              suffixIcon: Icon(Icons.search)
+              suffixIcon: const Icon(Icons.search)
             ),
             onChanged: (value) {
               setState(() {

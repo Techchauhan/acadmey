@@ -19,7 +19,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
@@ -61,7 +61,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
         scale: _scaleAnimation.value,
         child: Container(
           width: 200, // Increase the width
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
             color: Colors.blue,
             borderRadius: BorderRadius.circular(20),
@@ -69,11 +69,11 @@ class _AnimatedButtonState extends State<AnimatedButton>
               BoxShadow(
                 color: Colors.blue.withOpacity(0.5),
                 blurRadius: 10,
-                offset: Offset(0, 5),
+                offset: const Offset(0, 5),
               ),
             ],
           ),
-          child: Row(
+          child: const Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(

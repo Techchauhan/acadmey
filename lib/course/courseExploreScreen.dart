@@ -129,7 +129,7 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> ShowAllCourse() )); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const ShowAllCourse() )); // This pops the current page
         return false; // Return false to prevent app from closing
       },
       child: Scaffold(
@@ -138,7 +138,7 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => ShowAllCourse()),
+                MaterialPageRoute(builder: (context) => const ShowAllCourse()),
               );
             },
           ),
