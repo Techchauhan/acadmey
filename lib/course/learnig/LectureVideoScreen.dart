@@ -1,4 +1,3 @@
-import 'package:academy/learnig/studentCourseScreen.dart';
 import 'package:chewie/chewie.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +41,7 @@ class _LectureVideoScreenState extends State<LectureVideoScreen> {
   }
 
   void _initializeVideoPlayer() {
-    final videoPlayerController = VideoPlayerController.network(
-      'https://firebasestorage.googleapis.com/v0/b/academy-643bb.appspot.com/o/lecture_video%2Fvideoplayback.mp4?alt=media&token=826d3a58-fbea-47dc-9de9-299f080b3554'
-    );
+    final videoPlayerController = VideoPlayerController.network(widget.videoUrl);
     _chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
       autoPlay: true,

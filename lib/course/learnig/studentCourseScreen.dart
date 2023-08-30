@@ -1,4 +1,4 @@
-import 'package:academy/learnig/LectureVideoScreen.dart';
+import 'package:academy/course/learnig/LectureVideoScreen.dart';
 import 'package:academy/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
