@@ -1,5 +1,5 @@
 import 'package:academy/userScreens/navigator.dart';
-import 'package:academy/userScreens/login_screen.dart';
+import 'package:academy/userScreens/authentication/login_screen.dart';
 import 'package:academy/model/usermodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

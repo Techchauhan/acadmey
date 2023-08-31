@@ -1,5 +1,8 @@
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/dashboardScreen/dashboard.dart';
+import 'package:academy/widgets/CustomProgressIndicator1.dart';
+import 'package:academy/widgets/CustomProgressIndicator3.dart';
+import 'package:academy/widgets/cutomProgressIndicator2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -63,7 +66,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
           return WillPopScope(
             onWillPop: () async {
               // Perform sign-out when back button is pressed
-              return false; // Allow the user to navigate back
+              return true; // Allow the user to navigate back
             },
             child: SafeArea(
               child: Scaffold(
@@ -99,7 +102,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
         return Container(
           color: Colors.white,
           child: const Center(
-            child: CircularProgressIndicator(),
+            // child: MyProgressIndicator3(),
           ),
         );
       },

@@ -1,6 +1,7 @@
 import 'package:academy/Basic%20Pages/settingPage.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/navigator.dart';
+import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _MyProfileState extends State<MyProfile> {
           future: _getUser(),
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const MyProgressIndicator3();
             }
 
             if (!userSnapshot.hasData || userSnapshot.data == null) {
@@ -61,7 +62,7 @@ class _MyProfileState extends State<MyProfile> {
               builder: (context, userDataSnapshot) {
                 if (userDataSnapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: MyProgressIndicator3(),
                   );
                 }
 
@@ -102,10 +103,12 @@ class _MyProfileState extends State<MyProfile> {
                         },
                         child: Container(
                           padding:   const EdgeInsets.only(right: 10),
-                          child:   const Row(
+                          child:     Row(
                             children: [
-                              Icon(
-                                Icons.info_outlined, color: Colors.red,
+                              IconButton( onPressed: (){
+                                Fluttertoast.showToast(msg: 'Contact to your Teacher to Update the Data.',);
+                              },
+                                icon: Icon(Icons.info_outlined, color: Colors.red,),
                               ),
                               Text("Update Info")
 
@@ -290,54 +293,54 @@ class ProfileColoumDetail extends StatelessWidget {
 
 
 
-class MessageBox extends StatelessWidget {
-  final VoidCallback onClose;
-
-  MessageBox({required this.onClose});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Send a Message',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          const TextField(
-            decoration: InputDecoration(
-              hintText: 'Type your message...',
-            ),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: onClose, // Close the message box
-                child: const Text('Close'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Implement sending the message logic here
-                },
-                child: const Text('Send'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class MessageBox extends StatelessWidget {
+//   final VoidCallback onClose;
+//
+//   MessageBox({required this.onClose});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: MediaQuery.of(context).size.width * 0.8,
+//       padding: const EdgeInsets.all(20),
+//       decoration: BoxDecoration(
+//         color: Colors.grey[200],
+//         borderRadius: BorderRadius.circular(10),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const Text(
+//             'Send a Message',
+//             style: TextStyle(
+//               fontSize: 18,
+//               fontWeight: FontWeight.bold,
+//             ),
+//           ),
+//           const SizedBox(height: 10),
+//           const TextField(
+//             decoration: InputDecoration(
+//               hintText: 'Type your message...',
+//             ),
+//           ),
+//           const SizedBox(height: 10),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.end,
+//             children: [
+//               TextButton(
+//                 onPressed: onClose, // Close the message box
+//                 child: const Text('Close'),
+//               ),
+//               ElevatedButton(
+//                 onPressed: () {
+//                   // Implement sending the message logic here
+//                 },
+//                 child: const Text('Send'),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

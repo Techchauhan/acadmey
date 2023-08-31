@@ -5,10 +5,13 @@ import 'package:academy/chat/chatScreen.dart';
 import 'package:academy/course/showallCourse.dart';
 import 'package:academy/slideshow/viewSlidewshow.dart';
 import 'package:academy/teachers/allTeacherView.dart';
-import 'package:academy/userScreens/login_screen.dart';
+import 'package:academy/userScreens/authentication/login_screen.dart';
 import 'package:academy/userScreens/dashboardScreen/myprofile.dart';
+import 'package:academy/widgets/CustomProgressIndicator1.dart';
+import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:academy/widgets/animatedButton.dart';
 import 'package:academy/widgets/animatedButton2.dart';
+import 'package:academy/widgets/cutomProgressIndicator2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -36,6 +39,8 @@ class _HomePageState extends State<HomePage> {
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
+  final String name = '';
+
   final DatabaseReference _databaseReference =
       FirebaseDatabase.instance.reference();
 
@@ -62,6 +67,7 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
+
           return WillPopScope(
             onWillPop: () async {
               // Perform sign-out when back button is pressed
@@ -86,6 +92,7 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+
                           const Text(
                             "Hello! ",
                             style: TextStyle(
@@ -94,7 +101,11 @@ class _HomePageState extends State<HomePage> {
                                 FontWeight.bold,
                                 fontSize: 20),
                           ),
-                          Text("${data['firstName']}",
+                          Text(
+
+                              data['firstName'] != null && data['firstName'].toString().isNotEmpty
+                                  ? data['firstName'].toString()
+                                  : FirebaseAuth.instance.currentUser!.displayName.toString(),
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight:
@@ -213,7 +224,10 @@ class _HomePageState extends State<HomePage> {
                                                           FontWeight.bold,
                                                       fontSize: 26),
                                                 ),
-                                                Text("${data['firstName']}",
+                                                Text(
+                                                    data['firstName'] != null && data['firstName'].toString().isNotEmpty
+                                                        ? data['firstName'].toString()
+                                                        : FirebaseAuth.instance.currentUser!.displayName.toString(),
                                                     style: const TextStyle(
                                                         color: Colors.black,
                                                         fontWeight:
@@ -344,12 +358,12 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const SizedBox(height: 10),
 
-                          const Text('You can add more information below.'),
+                          const Text('ADDING MORE WIDGETS SOON'),
                         ],
                       );
                     } else {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: MyProgressIndicator3(),
                       );
                     }
                   },
@@ -367,7 +381,7 @@ class _HomePageState extends State<HomePage> {
         return Container(
           color: Colors.white,
           child: const Center(
-            child: CircularProgressIndicator(),
+            child: MyProgressIndicator3(),
           ),
         );
       },

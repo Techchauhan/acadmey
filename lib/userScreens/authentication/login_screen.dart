@@ -1,5 +1,8 @@
+import 'package:academy/userScreens/authentication/forgetPassword.dart';
 import 'package:academy/userScreens/navigator.dart';
-import 'package:academy/userScreens/regisrtration_screen.dart';
+import 'package:academy/userScreens/authentication/regisrtration_screen.dart';
+import 'package:academy/widgets/cutomProgressIndicator2.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,6 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   //firebase
   final _auth = FirebaseAuth.instance;
   final user1 = FirebaseAuth.instance.currentUser;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 
   final GoogleSignIn googleSignIn = GoogleSignIn();
   User? user;
@@ -30,27 +35,68 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
 
-  Future<User?> _handleSignIn() async {
+  Future<void> _handleSignIn() async {
     try {
+      // Show the Circular Progress Indicator while signing in
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevent users from dismissing the dialog
+        builder: (context) => Center(
+          child: MyProgressIndicator2(),
+        ),
+      );
+
       GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
       if (googleSignInAccount != null) {
         GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+        await googleSignInAccount.authentication;
         AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
         UserCredential result = await _auth.signInWithCredential(credential);
         User? user = result.user;
-        return Navigator.pushAndRemoveUntil(
-          context, MaterialPageRoute(builder: (context) => NavigatorPage(user!.uid)), // Replace with your login screen
-          (route) => true, // Remove all previous routes from the stack
-        );
+        if (user != null) {
+          // Create a reference to the 'users' collection in Firestore
+          CollectionReference usersCollection = _firestore.collection('users');
+
+          // Set additional values along with the Google user's ID
+          await usersCollection.doc(user.uid).set({
+            'uid': user.uid,
+            'displayName': user.displayName,
+            'email': user.email,
+            'firstName': '',
+            'secondName': '',
+            'academicYear': '',
+            'admissionClass': '',
+            'admissionNumber': '',
+            'dataOfAdmission': '',
+            'dob': '',
+            'fatherName': '',
+            'motherName': '',
+            'number': '',
+            'registrationNumber': '',
+            // Add more fields as needed
+          });
+
+          // Close the progress indicator dialog
+          Navigator.pop(context);
+
+          await Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => NavigatorPage(user.uid)),
+                (route) => false,
+          );
+        }
       }
     } catch (error) {
       print(error);
+      // Close the progress indicator dialog on error
+      Navigator.pop(context);
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: ElevatedButton(
         child: const Text("Login in"),
         onPressed: () {
-          sigIn(emailController.text, passController.text);
+          signIn(emailController.text, passController.text);
         },
       ),
     );
@@ -149,8 +195,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 40,
                 ),
                 passwordField,
-                const SizedBox(
-                  height: 40,
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(onPressed: (){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ForgetPassword()));
+                      // resetPassword(FirebaseAuth.instance.currentUser.);
+                    }, child: Text("Forget Password?"))
+                  ],
                 ),
                 loginButton,
                 const SizedBox(
@@ -220,28 +273,45 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //login function
 
-  void sigIn(String email, String password) async {
+  void signIn(String email, String password) async {
     if (_formkey.currentState!.validate()) {
-      await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-                Fluttertoast.showToast(msg: "Login Successfully, Please Restart"),
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevent users from dismissing the dialog
+        builder: (context) => Center(
+          child: MyProgressIndicator2(),
+        ),
+      );
 
-                if(user != null){
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NavigatorPage(
-                          user?.uid,
-                        )), // Replace with your login screen
-                        (route) => true, // Remove all previous routes from the stack
-                  )
-                }
+      try {
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
 
-              })
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
+        if (userCredential.user != null) {
+          Navigator.pop(context); // Hide the progress indicator
+
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NavigatorPage(userCredential.user!.uid),
+            ),
+                (route) => false,
+          );
+        }
+      } catch (e) {
+        Navigator.pop(context); // Hide the progress indicator
+
+        Fluttertoast.showToast(msg: e.toString());
+      }
     }
   }
+
+
+//Function for Reset Password
+
+
+
+
 }

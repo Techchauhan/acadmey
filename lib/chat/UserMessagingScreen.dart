@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:academy/chat/userchat.dart';
+import 'package:academy/widgets/CustomProgressIndicator1.dart';
+import 'package:academy/widgets/cutomProgressIndicator2.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -210,7 +212,7 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
                     );
                   }
                 }
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: MyProgressIndicator1());
               },
             ),
           ),
