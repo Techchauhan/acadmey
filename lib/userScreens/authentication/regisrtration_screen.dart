@@ -270,6 +270,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.dob = '';
     userModel.motherName = '';
     userModel.fatherName ='';
+    userModel.displayName = firstNameEditingController.text + ' '+secondNameEditingController.text;
 
 
     await firebaseFirestore

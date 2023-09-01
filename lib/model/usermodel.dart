@@ -12,6 +12,7 @@ class UserModel {
   String? dob;
   String? fatherName;
   String? motherName;
+  String? displayName;
   UserModel(
       {  this.uid,
         this.email,
@@ -23,6 +24,7 @@ class UserModel {
         this.dob,
         this.fatherName,
         this.motherName,
+        this.displayName,
       });
 
 
@@ -38,13 +40,14 @@ class UserModel {
         admissionClass: map['admissionClass'],
         dob:  map['dob'],
         fatherName: map['fatherName'],
-        motherName: map['motherName']
+        motherName: map['motherName'],
+        displayName: map(['firstName']+['secondName'])
     );
   }
 
   toJson(){
     return {"firstName":  firstName, "email": email, "secondName": secondName, "number": number, "academicYear": academicYear, "admissionClass": admissionClass,
-    "dob": dob, "fatherName": fatherName, "motherName": motherName
+    "dob": dob, "fatherName": fatherName, "motherName": motherName, "displayName": displayName,
     };
   }
 
@@ -55,7 +58,7 @@ class UserModel {
     return UserModel(
         uid: document.id,email: data['email'], firstName: data['firstName'], secondName: data['secondName'], number: data['number'],
 
-    motherName: data['motherName']
+    motherName: data['motherName'] , displayName: data['firstName'+'secondName']
     );
   }
 
@@ -71,6 +74,7 @@ class UserModel {
       'dob': dob,
       'fatherName': fatherName,
       'motherName': motherName,
+      'displayName': displayName,
     };
 }
 

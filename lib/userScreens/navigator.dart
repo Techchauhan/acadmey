@@ -68,34 +68,31 @@ class _NavigatorPageState extends State<NavigatorPage> {
               // Perform sign-out when back button is pressed
               return true; // Allow the user to navigate back
             },
-            child: SafeArea(
-              child: Scaffold(
-
-                bottomNavigationBar: BottomNavigationBar(
-                  currentIndex: _currentIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      label: 'Home',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.dashboard),
-                      label: 'Dashboard',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
-                      label: 'Settings',
-                    ),
-                  ],
-                ),
-                body:   _tabs[_currentIndex],
-
+            child: Scaffold(
+              bottomNavigationBar: BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard),
+                    label: 'Dashboard',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    label: 'Settings',
+                  ),
+                ],
               ),
+              body:   _tabs[_currentIndex],
+
             ),
           );
         }

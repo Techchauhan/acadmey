@@ -10,17 +10,17 @@ class LectureVideoScreen extends StatefulWidget {
   final String chapterId;
 
 
-  LectureVideoScreen(
-      {required this.videoUrl,
+  const LectureVideoScreen(
+      {super.key, required this.videoUrl,
       required this.chapterId,
        });
+
 
   @override
   _LectureVideoScreenState createState() => _LectureVideoScreenState();
 }
 
 class _LectureVideoScreenState extends State<LectureVideoScreen> {
-  DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
   late ChewieController _chewieController;
   List<String> lectures = [];
   List<String> lectures2 = [];
@@ -50,7 +50,7 @@ class _LectureVideoScreenState extends State<LectureVideoScreen> {
       // Other options can be configured here
     );
     _chewieController.addListener(() {
-      if (_chewieController != null && !_chewieController.isPlaying) {
+      if (!_chewieController.isPlaying) {
         // Handle video completion or pausing here if needed
       }
     });

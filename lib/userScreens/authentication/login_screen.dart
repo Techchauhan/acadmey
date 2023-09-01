@@ -4,6 +4,7 @@ import 'package:academy/userScreens/authentication/regisrtration_screen.dart';
 import 'package:academy/widgets/cutomProgressIndicator2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -277,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formkey.currentState!.validate()) {
       showDialog(
         context: context,
-        barrierDismissible: false, // Prevent users from dismissing the dialog
+        barrierDismissible: false,
         builder: (context) => Center(
           child: MyProgressIndicator2(),
         ),
@@ -290,6 +291,11 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         if (userCredential.user != null) {
+          // Retrieve the FCM token after successful login
+          Future<void> fcmToken =   _retrieveFCMTokenAndStoreInFirestore() ;
+          print('FCM Token Generated: $fcmToken'  );
+          // String? fcmToken = await _retrieveFCMToken();
+
           Navigator.pop(context); // Hide the progress indicator
 
           Navigator.pushAndRemoveUntil(
@@ -307,6 +313,62 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+
+// Function to retrieve the FCM token
+//   Future<String?> _retrieveFCMToken() async {
+//     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+//
+//     try {
+//       // Request permission to access the device's notifications (required on iOS)
+//       await _firebaseMessaging.requestPermission();
+//
+//       // Get the device's FCM token
+//       String? fcmToken = await _firebaseMessaging.getToken();
+//
+//       print('FCM Token: $fcmToken');
+//
+//       return fcmToken;
+//     } catch (e) {
+//       print('Error getting FCM token: $e');
+//       return null;
+//     }
+//   }
+
+
+
+  Future<void> _retrieveFCMTokenAndStoreInFirestore() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+    try {
+      // Request permission to access the device's notifications (required on iOS)
+      await _firebaseMessaging.requestPermission();
+
+      // Get the device's FCM token
+      String? fcmToken = await _firebaseMessaging.getToken();
+      print('FCM Token: $fcmToken');
+
+      // Store or update the FCM token in Firestore for the currently logged-in user
+      if (fcmToken != null) {
+        final user = _auth.currentUser;
+        if (user != null) {
+          final uid = user.uid;
+
+          // Reference to the Firestore document for the user
+          final userDocRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
+          // Update or set the FCM token in Firestore
+          await userDocRef.set(
+            {'fcmToken': fcmToken},
+            SetOptions(merge: true), // Use merge option to update or create the field
+          );
+        }
+      }
+    } catch (e) {
+      print('Error getting and storing FCM token: $e');
+    }
+  }
+
+
 
 
 //Function for Reset Password

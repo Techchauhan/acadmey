@@ -1,6 +1,4 @@
 import 'package:academy/Basic%20Pages/settingPage.dart';
-import 'package:academy/userScreens/dashboardScreen/homepage.dart';
-import 'package:academy/userScreens/navigator.dart';
 import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

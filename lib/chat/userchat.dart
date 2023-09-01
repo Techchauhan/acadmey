@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserChatScreen extends StatefulWidget {
+  const UserChatScreen({super.key});
+
   @override
   _UserChatScreenState createState() => _UserChatScreenState();
 }
@@ -100,12 +102,11 @@ class ChatUser {
 
   factory ChatUser.fromSnapshot(DocumentSnapshot snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
-    final displayName = data['firstName'] != null && data['firstName'].toString().isNotEmpty
-        ? data['firstName'].toString()
-        : FirebaseAuth.instance.currentUser!.displayName.toString(); // Provide a default value if null
+    final displayName =data['displayName'] as String? ?? 'Unknown' ;
+
+
+
+    // Provide a default value if null
     return ChatUser(uid: snapshot.id, displayName: displayName);
   }
 }
-
-
-

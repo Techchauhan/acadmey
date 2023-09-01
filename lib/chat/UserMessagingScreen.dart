@@ -6,6 +6,7 @@ import 'package:academy/widgets/cutomProgressIndicator2.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserMessagingScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class UserMessagingScreen extends StatefulWidget {
 class _UserMessagingScreenState extends State<UserMessagingScreen> {
   final ImagePicker _imagePicker = ImagePicker();
   late TextEditingController _messageController;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   final DatabaseReference _messagesReference =
   FirebaseDatabase.instance.reference().child('messages');
 
@@ -28,7 +30,28 @@ class _UserMessagingScreenState extends State<UserMessagingScreen> {
   void initState() {
     super.initState();
     _messageController = TextEditingController();
+    var initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
   }
+
+// Create a function to display a notification
+  Future<void> _displayNotification(Map<String, dynamic> message) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics,);
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      'New Message', // Notification title
+      message['notification']['body'], // Notification content
+      platformChannelSpecifics,
+    );
+  }
+
 
 
   Future<void> _sendImage() async {
