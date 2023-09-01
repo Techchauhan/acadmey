@@ -42,6 +42,7 @@ class Downloder extends StatelessWidget {
               children: [
                 PdfDownloadSection(),
                 VideoDownloadSection()
+
               ],
             ),
           ),
