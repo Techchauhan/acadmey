@@ -60,6 +60,10 @@ dependencies:
   flutter_local_notifications: ^15.1.1
 
 
+  #show date
+  intl: ^0.18.1
+
+
 
 dev_dependencies:
   flutter_test:

@@ -2,8 +2,11 @@ import 'package:academy/Basic%20Pages/aboutUs.dart';
 import 'package:academy/Basic%20Pages/helpSupport.dart';
 import 'package:academy/Basic%20Pages/settingPage.dart';
 import 'package:academy/chat/chatScreen.dart';
-import 'package:academy/course/showallCourse.dart';
+import 'package:academy/course/padiorfree/LiveClassesCourse.dart';
+import 'package:academy/course/padiorfree/decideliveOrVideo.dart';
+import 'package:academy/course/showallVideoCourse.dart';
 import 'package:academy/slideshow/viewSlidewshow.dart';
+import 'package:academy/teachers/TeacherListForHomeScreen.dart';
 import 'package:academy/teachers/allTeacherView.dart';
 import 'package:academy/userScreens/Downloads/downloader.dart';
 import 'package:academy/userScreens/authentication/login_screen.dart';
@@ -168,6 +171,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               appBar: AppBar(
+                backgroundColor: Colors.white,
                 actions: [
                   GestureDetector(
                     onTap: () {
@@ -203,177 +207,210 @@ class _HomePageState extends State<HomePage> {
                     final courseData = snapshot.data?.snapshot.value
                         as Map<dynamic, dynamic>;
 
-                    return Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          decoration: const BoxDecoration(
-                              // color: Colors.yellow,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                                // color: Colors.yellow,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                  "Hello! ",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 26),
+                                                ),
+                                                Text(
+                                                    data['firstName'] != null && data['firstName'].toString().isNotEmpty
+                                                        ? data['firstName'].toString()
+                                                        : FirebaseAuth.instance.currentUser!.displayName.toString(),
+                                                    style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 26)),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                // const Row(
+                                                //   children: [
+                                                //     Padding(
+                                                //       padding: EdgeInsets.only(
+                                                //           left: 40),
+                                                //       child: Text(
+                                                //         "Class - XII A",
+                                                //         style: TextStyle(
+                                                //           fontSize: 10,
+                                                //         ),
+                                                //       ),
+                                                //     )
+                                                //   ],
+                                                // ),
+
+
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 20),
+                                                      child: Container(
+                                                        width: 300,
+                                                        height: 40,
+
+                                                        child: TextField(
+                                                          decoration: InputDecoration(
+                                                            alignLabelWithHint:  true,
+                                                            contentPadding: const EdgeInsets.symmetric(horizontal: 40),
+                                                            hintText: 'Search...',
+                                                            prefixIcon: const Icon(Icons.search),
+                                                            border: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(25),
+                                                            ),
+                                                          ),
+                                                          onChanged: (value) {
+                                                            // Handle search query changes here
+                                                          },
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MyProfile()));
+                                          },
+                                          child: CircleAvatar(
+                                            minRadius: 30,
+                                            maxRadius: 40,
+                                            backgroundImage: photoURL != null
+                                                ? NetworkImage(
+                                                    photoURL.toString())
+                                                : const NetworkImage(
+                                                    'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),    
+                          // Add your additional children here
+                          Column(
                             children: [
+                              ViewSlideShow(),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: TextButton(
+                                    onPressed: (){
+                                      //Implement the functions when the student click on the our Expert Teachers.
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const TeachersListScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text("Our Expert Teachers", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),),
+                                  ),
+                                ),
+                              ),
+                             Container(
+                               height: 100,
+                                 child: TeachersListforHomeScreen()),
+                             SizedBox(height: 20,),
+                             // Add your additional children here
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Hello! ",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight:
-                                                        FontWeight.bold,
-                                                    fontSize: 26),
-                                              ),
-                                              Text(
-                                                  data['firstName'] != null && data['firstName'].toString().isNotEmpty
-                                                      ? data['firstName'].toString()
-                                                      : FirebaseAuth.instance.currentUser!.displayName.toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 26)),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              // const Row(
-                                              //   children: [
-                                              //     Padding(
-                                              //       padding: EdgeInsets.only(
-                                              //           left: 40),
-                                              //       child: Text(
-                                              //         "Class - XII A",
-                                              //         style: TextStyle(
-                                              //           fontSize: 10,
-                                              //         ),
-                                              //       ),
-                                              //     )
-                                              //   ],
-                                              // ),
-
-
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 20),
-                                                    child: Container(
-                                                      width: 300,
-                                                      height: 40,
-
-                                                      child: TextField(
-                                                        decoration: InputDecoration(
-                                                          alignLabelWithHint:  true,
-                                                          contentPadding: const EdgeInsets.symmetric(horizontal: 40),
-                                                          hintText: 'Search...',
-                                                          prefixIcon: const Icon(Icons.search),
-                                                          border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(25),
-                                                          ),
-                                                        ),
-                                                        onChanged: (value) {
-                                                          // Handle search query changes here
-                                                        },
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const MyProfile()));
+                                      AnimatedButton(
+                                        onPress: () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => const ShowAllCourse(),
+                                            ),
+                                          );
                                         },
-                                        child: CircleAvatar(
-                                          minRadius: 30,
-                                          maxRadius: 40,
-                                          backgroundImage: photoURL != null
-                                              ? NetworkImage(
-                                                  photoURL.toString())
-                                              : const NetworkImage(
-                                                  'https://cdn-icons-png.flaticon.com/512/149/149071.png'),
-                                        ),
                                       ),
+                                      AnimateButton2(
+                                        onPress: () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>   DecidePaidorFree(),
+                                            ),
+                                          );
+                                        },
+                                      )
                                     ],
                                   ),
                                 ],
                               ),
+
+                              const SizedBox(height: 10),
+                              const Text('ADDING MORE WIDGETS SOON'),
                             ],
                           ),
-                        ),
 
-                        ViewSlideShow(),
+                          const SizedBox(height: 10),
 
+                          const Text('ADDING MORE WIDGETS SOON'),
 
-
-
-                        // Add your additional children here
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                AnimatedButton(
-                                  onPress: (){
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>   const ShowAllCourse()));
-                                  },
-                                ),
-                                AnimateButton2(
-                                  onPress: (){
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>   const TeachersListScreen()));
-                                  },
-                                )
-                              ],
-                            )
-
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-
-                        const Text('ADDING MORE WIDGETS SOON'),
-                      ],
+                          SizedBox(height: 200,)
+                        ],
+                      ),
                     );
                   } else {
                     return const Center(
@@ -401,19 +438,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      await _auth.signOut();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-        // Replace with your login screen
-        (route) => true, // Remove all previous routes from the stack
-      );
-    } catch (e) {
-      print('Error signing out: $e');
-    }
-  }
+
 }
 
 class DrawerButton extends StatelessWidget {

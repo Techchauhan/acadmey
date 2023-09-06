@@ -1,5 +1,5 @@
 import 'package:academy/course/learnig/studentCourseScreen.dart';
-import 'package:academy/course/showallCourse.dart';
+import 'package:academy/course/showallVideoCourse.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';

@@ -37,7 +37,7 @@ class ViewSlideShow extends StatelessWidget {
             itemBuilder: (context, index) {
               return Container(
                 width: 300,
-                height: 200,
+                height: 100,
                 margin: const EdgeInsets.all(8),
                 child: Image.network(
                   slideshowImages[index].imageUrl,
