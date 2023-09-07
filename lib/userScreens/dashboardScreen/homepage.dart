@@ -363,9 +363,9 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                              Container(
-                               height: 100,
+                               height: 120,
                                  child: TeachersListforHomeScreen()),
-                             SizedBox(height: 20,),
+                               SizedBox(height: 20,),
                              // Add your additional children here
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -379,7 +379,7 @@ class _HomePageState extends State<HomePage> {
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => const ShowAllCourse(),
+                                              builder: (context) =>   DecidePaidorFree(),
                                             ),
                                           );
                                         },
@@ -389,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>   DecidePaidorFree(),
+                                              builder: (context) =>  const TeachersListScreen(),
                                             ),
                                           );
                                         },

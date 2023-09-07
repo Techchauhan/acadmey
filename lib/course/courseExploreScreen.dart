@@ -1,5 +1,6 @@
 import 'package:academy/course/learnig/studentCourseScreen.dart';
 import 'package:academy/course/showallVideoCourse.dart';
+import 'package:academy/userScreens/navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -128,7 +129,7 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const ShowAllCourse() )); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid) )); // This pops the current page
         return false; // Return false to prevent app from closing
       },
       child: Scaffold(
@@ -137,7 +138,7 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const ShowAllCourse()),
+                MaterialPageRoute(builder: (context) => NavigatorPage(FirebaseAuth.instance.currentUser!.uid)),
               );
             },
           ),
@@ -149,14 +150,24 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Course Thumbnail
-              if (courseData.containsKey('thumbnail'))
-                Image.network(courseData['thumbnail']),
+              Container(
+                width: double.infinity,
+                height: 200, // Adjust the height as needed
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(courseData.containsKey('thumbnail')
+                        ? courseData['thumbnail']
+                        : ''),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
 
-              const SizedBox(height: 8), // Add some spacing
+              const SizedBox(height: 16), // Add some spacing
 
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text("Description", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                child: Text("Description", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500,),),
               ),
               // Course Description
               Padding(
