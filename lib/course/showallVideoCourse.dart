@@ -23,7 +23,7 @@ class _ShowAllCourseState extends State<ShowAllCourse> {
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> HomePage(FirebaseAuth.instance.currentUser!.uid) )); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,) )); // This pops the current page
         return false; // Return false to prevent app from closing
       },
       child: SafeArea(
@@ -32,7 +32,7 @@ class _ShowAllCourseState extends State<ShowAllCourse> {
             title: Text("All Course"),
             leading: BackButton(
               onPressed: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
               },
             ),
           ),

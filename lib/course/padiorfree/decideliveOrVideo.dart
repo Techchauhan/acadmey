@@ -30,14 +30,14 @@ class _DecidePaidorFreeState extends State<DecidePaidorFree> with SingleTickerPr
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: ()async{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
         return false;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
             onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
             },
           ),
           title: Text('Course Selection'),

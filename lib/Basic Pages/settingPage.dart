@@ -29,14 +29,14 @@ class _SettingPageState extends State<SettingPage> {
 
     return WillPopScope(
       onWillPop: ()async{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
         return false;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
             onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
             },
           ),
           title: const Text('Settings'),

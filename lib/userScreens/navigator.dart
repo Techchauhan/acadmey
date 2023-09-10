@@ -1,5 +1,6 @@
 import 'package:academy/Basic%20Pages/settingPage.dart';
 import 'package:academy/Books/mainBooksPage.dart';
+import 'package:academy/service/quotesPage.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/dashboardScreen/dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,10 +14,10 @@ import 'dart:convert';
 import '../widgets/CustomProgressIndicator3.dart';
 
 class NavigatorPage extends StatefulWidget {
-  const NavigatorPage(this.userid, {super.key});
+  const NavigatorPage(this.userid, {super.key, required this.initialIndex});
 
   final String? userid;
-  
+  final int initialIndex;
 
   @override
   State<NavigatorPage> createState() => _NavigatorPageState();
@@ -35,6 +36,13 @@ class _NavigatorPageState extends State<NavigatorPage> {
   FirebaseDatabase.instance.reference();
 
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set the initial index to the value passed from SettingPage
+    _currentIndex = widget.initialIndex;
+  }
 
   final List<Widget> _tabs = [
     HomePage(FirebaseAuth.instance.currentUser!.uid),

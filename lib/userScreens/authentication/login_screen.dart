@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           await Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => NavigatorPage(user.uid)),
+            MaterialPageRoute(builder: (context) => NavigatorPage(user.uid, initialIndex: 0,)),
                 (route) => false,
           );
         }
@@ -301,7 +301,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => NavigatorPage(userCredential.user!.uid),
+              builder: (context) => NavigatorPage(userCredential.user!.uid, initialIndex: 0,),
             ),
                 (route) => false,
           );

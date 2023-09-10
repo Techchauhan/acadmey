@@ -1,17 +1,32 @@
- import 'package:academy/userScreens/navigator.dart';
+ import 'package:academy/Books/pdf/pdfView.dart';
+import 'package:academy/userScreens/navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
 
-class MainBooksPage extends StatelessWidget {
+class MainBooksPage extends StatefulWidget {
+
+
+  @override
+  State<MainBooksPage> createState() => _MainBooksPageState();
+}
+
+class _MainBooksPageState extends State<MainBooksPage> {
+
+  void viewPdf(String pdfUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PdfViewerPage(pdfUrl)),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
           onPressed: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
           },
         ),
         title: const Text('Open Book Store'),
@@ -74,9 +89,13 @@ class MainBooksPage extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/Hnad-Book-Mathematics.jpg', 'Book Title 1'),
-                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/metal-Maths.jpg', 'Book Title 2'),
-                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/physics-JEE-Books.jpg', 'Book Title 3'),
+                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/Hnad-Book-Mathematics.jpg', 'Book Title 1', (){
+                    viewPdf('https://timesofuniversity.com/wp-content/uploads/2023/09/hemh113.pdf');
+                  }),
+                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/metal-Maths.jpg', 'Book Title 2', (){
+                    viewPdf('https://ncert.nic.in/textbook/pdf/hemh113.pdf');
+                  }),
+                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/physics-JEE-Books.jpg', 'Book Title 3',(){}),
                   // Add more book suggestions here
                 ],
               ),
@@ -96,9 +115,9 @@ class MainBooksPage extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/ART-Architecure.jpg', 'Book Title 4'),
-                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/Rich-Dad-Poor-Dad.jpg', 'Book Title 5'),
-                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/metal-Maths.jpg', 'Book Title 6'),
+                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/ART-Architecure.jpg', 'Book Title 4',(){}),
+                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/Rich-Dad-Poor-Dad.jpg', 'Book Title 5',(){}),
+                  BookCard('https://timesofuniversity.com/wp-content/uploads/2023/09/metal-Maths.jpg', 'Book Title 6',(){}),
                   // Add more books for continued reading here
                 ],
               ),
@@ -136,32 +155,36 @@ class CategoryAvatar extends StatelessWidget {
 class BookCard extends StatelessWidget {
   final String imageUrl;
   final String title;
+  final VoidCallback onPress;
 
-  BookCard(this.imageUrl, this.title);
+  BookCard(this.imageUrl, this.title, this.onPress);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 8.0),
-      child: Card(
-        elevation: 2.0,
-        child: Column(
-          children: <Widget>[
-            Image.network(
-              imageUrl,
-              height: 100,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: onPress,
+        child: Card(
+          elevation: 2.0,
+          child: Column(
+            children: <Widget>[
+              Image.network(
+                imageUrl,
+                height: 100,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

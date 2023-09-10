@@ -13,7 +13,7 @@ class Downloder extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: ()async{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
 
         return false;
       },
@@ -26,7 +26,7 @@ class Downloder extends StatelessWidget {
               child: AppBar(
                 leading: BackButton(
                   onPressed: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid)));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)));
                   },
                 ),
                 bottom: TabBar(

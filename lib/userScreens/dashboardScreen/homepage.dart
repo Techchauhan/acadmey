@@ -3,12 +3,14 @@ import 'package:academy/Basic%20Pages/helpSupport.dart';
 import 'package:academy/Basic%20Pages/settingPage.dart';
 import 'package:academy/chat/chatScreen.dart';
 import 'package:academy/course/padiorfree/decideliveOrVideo.dart';
+import 'package:academy/service/quotesPage.dart';
 import 'package:academy/slideshow/viewSlidewshow.dart';
 import 'package:academy/teachers/TeacherListForHomeScreen.dart';
 import 'package:academy/teachers/allTeacherView.dart';
 import 'package:academy/userScreens/Downloads/downloader.dart';
 import 'package:academy/userScreens/authentication/login_screen.dart';
 import 'package:academy/userScreens/dashboardScreen/myprofile.dart';
+import 'package:academy/userScreens/navigator.dart';
 import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:academy/widgets/animatedButton.dart';
 import 'package:academy/widgets/animatedButton2.dart';
@@ -179,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SettingPage()));
+                          builder: (context) =>   NavigatorPage(user!.uid, initialIndex: 3)));
                 },
                 icon: Icons.settings,
               ),
@@ -399,6 +401,10 @@ class _HomePageState extends State<HomePage> {
                             height: 100,
                             child: TeachersListforHomeScreen()),
                         SizedBox(height: 20,),
+
+                        Padding(padding: EdgeInsets.all(20),
+                          child: QuotesPage(),
+                        ),
                         // Add your additional children here
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,

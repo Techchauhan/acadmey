@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: user != null
               ? NavigatorPage(
-            user!.uid,
+            user!.uid, initialIndex: 0,
           )
               : const LoginScreen(),
         ),

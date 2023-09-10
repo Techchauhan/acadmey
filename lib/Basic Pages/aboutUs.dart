@@ -11,14 +11,14 @@ class AboutUsPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid))); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 3,))); // This pops the current page
         return false; // Return false to prevent app from closing
       },
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
             onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid))); // This pops the current page
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 3,))); // This pops the current page
 
             },
           ),

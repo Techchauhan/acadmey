@@ -130,7 +130,7 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
     return WillPopScope(
       onWillPop: () async {
         // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid) )); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,) )); // This pops the current page
         return false; // Return false to prevent app from closing
       },
       child: Scaffold(
@@ -139,7 +139,7 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => NavigatorPage(FirebaseAuth.instance.currentUser!.uid)),
+                MaterialPageRoute(builder: (context) => NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)),
               );
             },
           ),

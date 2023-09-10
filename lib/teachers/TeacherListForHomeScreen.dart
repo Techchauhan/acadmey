@@ -79,23 +79,30 @@ class _TeachersListforHomeScreenState extends State<TeachersListforHomeScreen> {
   }
 
   Widget buildTeacherList(List<String> teacherImages) {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: teacherImages.length,
-      itemBuilder: (context, index) {
-        return SizedBox(
-          height: 40,
-          child: Column(
-            children: [
-              CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(teacherImages[index]),
+    return Container(
+      height: 100, // Set a fixed height to limit vertical space
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: teacherImages.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: 90, // Set a fixed width for each item
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 40, // Decrease the radius to fit within the limited space
+                    backgroundImage: NetworkImage(teacherImages[index]),
+                  )
+                ],
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
+
 }
 
