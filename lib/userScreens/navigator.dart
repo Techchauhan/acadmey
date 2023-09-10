@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage(this.userid, {super.key});
@@ -30,7 +32,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   final DatabaseReference _databaseReference =
-      FirebaseDatabase.instance.reference();
+  FirebaseDatabase.instance.reference();
 
   int _currentIndex = 0;
 
@@ -44,69 +46,104 @@ class _NavigatorPageState extends State<NavigatorPage> {
     await FirebaseAuth.instance.signOut();
   }
 
+  // Add a method to fetch cached data from SharedPreferences
+  Future<String?> getCachedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('navigatorPageData');
+  }
+
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference users =
+    FirebaseFirestore.instance.collection('users');
 
-    return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(widget.userid).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
+    return FutureBuilder<String?>(
+      future: getCachedData(),
+      builder: (BuildContext context, AsyncSnapshot<String?> cachedSnapshot) {
+        if (cachedSnapshot.hasError) {
           return const Text("Something went wrong");
         }
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text("Document does not exist");
-        }
+        if (cachedSnapshot.hasData && cachedSnapshot.data != null) {
+          // Use cached data
+          final parsedData = json.decode(cachedSnapshot.data!); // Use appropriate parsing based on your data structure
+          return buildNavigatorPageWithData(parsedData);
+        } else {
+          // Data not found in shared preferences, fetch from the server
+          return FutureBuilder<DocumentSnapshot>(
+            future: users.doc(widget.userid).get(),
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return const Text("Something went wrong");
+              }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          return WillPopScope(
-            onWillPop: () async {
-              // Perform sign-out when back button is pressed
-              return true; // Allow the user to navigate back
+              if (snapshot.hasData && !snapshot.data!.exists) {
+                return const Text("Document does not exist");
+              }
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                final data = snapshot.data!.data() as Map<String, dynamic>;
+                final jsonData = json.encode(data); // Serialize data to JSON
+
+                // Cache the fetched data
+                cacheData(jsonData);
+
+                return buildNavigatorPageWithData(data);
+              }
+
+              return Container(
+                color: Colors.white,
+                child: const Center(
+                  // child: MyProgressIndicator3(),
+                ),
+              );
             },
-            child: Scaffold(
-              bottomNavigationBar: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.dashboard),
-                    label: 'Dashboard',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: 'Settings',
-                  ),
-                ],
-              ),
-              body:   _tabs[_currentIndex],
-
-            ),
           );
         }
-        return Container(
-          color: Colors.white,
-          child: const Center(
-            // child: MyProgressIndicator3(),
-          ),
-        );
       },
     );
   }
 
+  // Add a method to cache data in SharedPreferences
+  void cacheData(String data) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('navigatorPageData', data);
+  }
 
+  Widget buildNavigatorPageWithData(Map<String, dynamic> data) {
+    return WillPopScope(
+      onWillPop: () async {
+        // Perform sign-out when the back button is pressed
+        return true; // Allow the user to navigate back
+      },
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard),
+              label: 'Dashboard',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+        ),
+        body: _tabs[_currentIndex],
+      ),
+    );
+  }
 }
+
 
 

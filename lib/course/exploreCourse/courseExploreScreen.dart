@@ -1,3 +1,4 @@
+import 'package:academy/course/exploreCourse/courseDataController.dart';
 import 'package:academy/course/learnig/studentCourseScreen.dart';
 import 'package:academy/course/showallVideoCourse.dart';
 import 'package:academy/userScreens/navigator.dart';
@@ -162,8 +163,24 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
                   ),
                 ),
               ),
+              // Scaffold(
+              //   appBar: AppBar(
+              //     bottom:  PreferredSize(
+              //       preferredSize: Size.fromHeight(48.0),
+              //       child: TabBar(
+              //         tabs: [
+              //           Tab(text: 'Description'),
+              //           Tab(text: 'Lectures'),
+              //           Tab(text: 'About'),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
 
-              const SizedBox(height: 16), // Add some spacing
+              const SizedBox(height: 16),
+
+
 
               const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -175,7 +192,6 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
                 child: Text(courseData.containsKey('description') ? courseData['description'] : ''),
               ),
 
-              Text(FirebaseAuth.instance.currentUser!.email.toString()),
 
               const SizedBox(height: 16), // Add some spacing
 

@@ -1,4 +1,4 @@
-import 'package:academy/course/courseExploreScreen.dart';
+import 'package:academy/course/exploreCourse/courseExploreScreen.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
