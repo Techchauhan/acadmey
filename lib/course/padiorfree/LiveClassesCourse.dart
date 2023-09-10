@@ -1,3 +1,4 @@
+import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +11,9 @@ class LiveClassCourse extends StatelessWidget {
       stream: FirebaseFirestore.instance.collection('live-courses').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const CircularProgressIndicator(); // Display a loading indicator.
+          return Center(
+            child: MyProgressIndicator3(),
+          );   // Display a loading indicator.
         }
         var courses = snapshot.data?.docs; // Get the course documents.
 

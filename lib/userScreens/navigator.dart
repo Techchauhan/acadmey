@@ -1,8 +1,7 @@
+import 'package:academy/Basic%20Pages/settingPage.dart';
+import 'package:academy/Books/mainBooksPage.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/dashboardScreen/dashboard.dart';
-import 'package:academy/widgets/CustomProgressIndicator1.dart';
-import 'package:academy/widgets/CustomProgressIndicator3.dart';
-import 'package:academy/widgets/cutomProgressIndicator2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,18 +10,19 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import '../widgets/CustomProgressIndicator3.dart';
+
 class NavigatorPage extends StatefulWidget {
   const NavigatorPage(this.userid, {super.key});
 
   final String? userid;
+  
 
   @override
   State<NavigatorPage> createState() => _NavigatorPageState();
 }
 
 class _NavigatorPageState extends State<NavigatorPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final user = FirebaseAuth.instance.currentUser;
 
   final String? photoURL = FirebaseAuth.instance.currentUser!.photoURL;
@@ -39,7 +39,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
   final List<Widget> _tabs = [
     HomePage(FirebaseAuth.instance.currentUser!.uid),
     const Dashboard(),
-    const Dashboard(),
+    MainBooksPage(),
+    const SettingPage(),
   ];
 
   Future<void> _logout(BuildContext context) async {
@@ -94,7 +95,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
               return Container(
                 color: Colors.white,
                 child: const Center(
-                  // child: MyProgressIndicator3(),
+                  child: MyProgressIndicator3(),
                 ),
               );
             },
@@ -126,16 +127,24 @@ class _NavigatorPageState extends State<NavigatorPage> {
           },
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home, color: Colors.white,),
               label: 'Home',
+              backgroundColor: Colors.black87
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.dashboard),
               label: 'Dashboard',
+                backgroundColor: Colors.black87
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_book_sharp),
+              label: 'Books',
+                backgroundColor: Colors.black87
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Settings',
+                backgroundColor: Colors.black87
             ),
           ],
         ),

@@ -88,7 +88,7 @@ class _TeachersListforHomeScreenState extends State<TeachersListforHomeScreen> {
           child: Column(
             children: [
               CircleAvatar(
-                radius: 60,
+                radius: 50,
                 backgroundImage: NetworkImage(teacherImages[index]),
               ),
             ],

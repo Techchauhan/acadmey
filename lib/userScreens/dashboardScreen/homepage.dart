@@ -396,7 +396,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Container(
-                            height: 120,
+                            height: 100,
                             child: TeachersListforHomeScreen()),
                         SizedBox(height: 20,),
                         // Add your additional children here

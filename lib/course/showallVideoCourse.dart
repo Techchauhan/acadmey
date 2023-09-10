@@ -1,6 +1,7 @@
 import 'package:academy/course/exploreCourse/courseExploreScreen.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/navigator.dart';
+import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -159,7 +160,7 @@ class _ShowAllCourseState extends State<ShowAllCourse> {
                 );
               } else {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: MyProgressIndicator3(),
                 );
               }
             },
