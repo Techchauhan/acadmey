@@ -24,7 +24,7 @@ class _VideoLectureCourseState extends State<VideoLectureCourse> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    HomePage(FirebaseAuth.instance.currentUser!.uid)));
+                    MainHomePage(FirebaseAuth.instance.currentUser!.uid)));
         return false;
       },
       child: SafeArea(

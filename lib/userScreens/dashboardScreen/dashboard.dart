@@ -1,185 +1,74 @@
-import 'package:academy/userScreens/assigmentScreen/assigmentScreen.dart';
-import 'package:academy/userScreens/profiile/myprofile.dart';
-
+import 'package:academy/userScreens/dashboardScreen/homepage.dart';
+import 'package:academy/userScreens/navigator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key,   });
+
+class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
 
   @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          color: Colors.lightBlueAccent,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(60),
-            topRight: Radius.circular(60),
-          ),
+    return   Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) =>
+                    NavigatorPage(FirebaseAuth.instance.currentUser!.uid,
+                        initialIndex: 0)));
+          }
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: ListView(
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Dashboard", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),),
+              _buildCard(color: Colors.blueAccent, text: 'Live Course', subtitle: '1'),
+              _buildCard(color: Colors.blueAccent, text: 'Video Course', subtitle: '4')
+            ],
+          )],
+        ),
+      ),
+    );
+  }
+  Widget _buildCard({required Color color, required String text, required String subtitle}) {
+    return Card(
+      elevation: 5, // Add shadow to the card
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15), // Rounded corners for the card
+      ),
+      color: color,
+      child: Container(
+        width: 200,
+        height: 150,
+        padding: EdgeInsets.all(16),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  HomeCard(
-                    onPress: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const ProfileScreen(),
-                      //   ),
-                      // );
-                    },
-                    icon: Icons.question_answer,
-                    iconColor: Colors.cyanAccent,
-                    title: "Take Quiz",
-                  ),
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AssignmentScreen(),
-                        ),
-                      );
-                    },
-                    icon: Icons.edit_note_sharp,
-                    iconColor: Colors.yellow,
-                    title: "Assignment",
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyProfile(),
-                        ),
-                      );
-                    },
-                    icon: Icons.list,
-                    iconColor: Colors.red,
-                    title: "Syllabus",
-                  ),
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyProfile(),
-                        ),
-                      );
-                    },
-                    icon: Icons.person,
-                    iconColor: Colors.black,
-                    title: "Profile",
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyProfile(),
-                        ),
-                      );
-                    },
-                    icon: Icons.monetization_on,
-                    iconColor: Colors.grey,
-                    title: "Fees",
-                  ),
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AssignmentScreen(),
-                        ),
-                      );
-                    },
-                    icon: Icons.calendar_month,
-                    iconColor: Colors.green,
-                    title: "Time-table",
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyProfile(),
-                        ),
-                      );
-                    },
-                    icon: Icons.analytics,
-                    iconColor: Colors.greenAccent,
-                    title: "Rank",
-                  ),
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AssignmentScreen(),
-                        ),
-                      );
-                    },
-                    icon: Icons.groups_outlined,
-                    iconColor: Colors.black,
-                    title: "Class Mates",
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyProfile(),
-                        ),
-                      );
-                    },
-                    icon: Icons.video_collection_outlined,
-                    iconColor: Colors.deepOrange,
-                    title: "Videos",
-                  ),
-                  HomeCard(
-                    onPress: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AssignmentScreen(),
-                        ),
-                      );
-                    },
-                    icon: Icons.event_note_outlined,
-                    iconColor: Colors.redAccent,
-                    title: "Notice",
-                  ),
-                ],
+              SizedBox(height: 10,),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -189,49 +78,5 @@ class Dashboard extends StatelessWidget {
   }
 }
 
-class HomeCard extends StatelessWidget {
-  const HomeCard({
-    required this.onPress,
-    required this.icon,
-    required this.title,
-    this.iconColor = Colors.blueAccent, // Default icon color
-    Key? key,
-  }) : super(key: key);
 
-  final VoidCallback onPress;
-  final IconData icon;
-  final String title;
-  final Color iconColor; // Icon color property
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPress,
-      child: Container(
-        margin: const EdgeInsets.only(top: 15),
-        width: MediaQuery.of(context).size.width / 2.5,
-        height: MediaQuery.of(context).size.height / 6,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 70,
-              color: iconColor, // Use the specified icon color
-            ),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 

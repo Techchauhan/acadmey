@@ -47,7 +47,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   }
 
   final List<Widget> _tabs = [
-    HomePage(FirebaseAuth.instance.currentUser!.uid),
+    MainHomePage(FirebaseAuth.instance.currentUser!.uid),
     const Dashboard(),
     VideoNavigator(),
     MainBooksPage(),

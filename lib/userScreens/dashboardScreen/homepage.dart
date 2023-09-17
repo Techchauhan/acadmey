@@ -12,6 +12,7 @@ import 'package:academy/userScreens/authentication/login_screen.dart';
 import 'package:academy/userScreens/profiile/myprofile.dart';
 import 'package:academy/userScreens/navigator.dart';
 import 'package:academy/widgets/CustomProgressIndicator3.dart';
+import 'package:academy/widgets/DashboardAnimatedButton.dart';
 import 'package:academy/widgets/animatedButton.dart';
 import 'package:academy/widgets/animatedButton2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,16 +25,16 @@ import 'package:lottie/lottie.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage(this.userid);
+class MainHomePage extends StatefulWidget {
+  MainHomePage(this.userid, {super.key});
 
   final String? userid;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainHomePage> createState() => _MainHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainHomePageState extends State<MainHomePage> {
 
   final user = FirebaseAuth.instance.currentUser;
 
@@ -226,7 +227,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Downloder()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Downloder()));
                 // Handle button tap here
                 // You can add your custom logic when the button is tapped
               },
@@ -324,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                                                 padding:
                                                 const EdgeInsets.only(
                                                     left: 20),
-                                                child: Container(
+                                                child: SizedBox(
                                                   width: 300,
                                                   height: 40,
 
@@ -397,12 +398,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        Container(
+                         const SizedBox(
                             height: 100,
                             child: TeachersListforHomeScreen()),
-                        SizedBox(height: 20,),
-
-                        Padding(padding: EdgeInsets.all(20),
+                        const Padding(padding: EdgeInsets.all(5),
                           child: QuotesPage(),
                         ),
                         // Add your additional children here
@@ -439,7 +438,7 @@ class _HomePageState extends State<HomePage> {
                         ),
 
                         const SizedBox(height: 10),
-                        const Text('ADDING MORE WIDGETS SOON'),
+                        DashboardAnimatedButton()
                       ],
                     ),
 
@@ -447,7 +446,7 @@ class _HomePageState extends State<HomePage> {
 
                     const Text('ADDING MORE WIDGETS SOON'),
 
-                    SizedBox(height: 200,)
+                    const SizedBox(height: 200,)
                   ],
                 ),
               );

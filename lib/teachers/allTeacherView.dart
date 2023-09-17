@@ -36,14 +36,14 @@ class TeachersListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: ()async{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage(  FirebaseAuth.instance.currentUser!.uid))); // This pops the current page
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainHomePage(  FirebaseAuth.instance.currentUser!.uid))); // This pops the current page
         return false;
       },
       child: Scaffold(
         appBar: AppBar(title: const Text('Our faculty members'),
           leading: BackButton(
             onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage(  FirebaseAuth.instance.currentUser!.uid))); // This pops the current page
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MainHomePage(  FirebaseAuth.instance.currentUser!.uid))); // This pops the current page
             },
           ),
         ),
