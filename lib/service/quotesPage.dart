@@ -33,8 +33,7 @@ class _QuotesPageState extends State<QuotesPage> {
   '“In three words I can sum up everything I’ve learned about life: it goes on.” - Robert Frost',
   '“You miss 100% of the shots you don’t take.” - Wayne Gretzky',
   '“The greatest glory in living lies not in never falling, but in rising every time we fall.” - Nelson Mandela',
-"  '“Life is what happens when you're busy making other plans.” - John Lennon',"
-
+  " '“Life is what happens when you're busy making other plans.” - John Lennon',"
   '“The only thing necessary for the triumph of evil is for good men to do nothing.” - Edmund Burke',
   '“To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.” - Ralph Waldo Emerson',
   '“The best way to predict the future is to create it.” - Peter Drucker',
