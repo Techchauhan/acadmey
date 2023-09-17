@@ -1,5 +1,5 @@
 import 'package:academy/userScreens/assigmentScreen/assigmentScreen.dart';
-import 'package:academy/userScreens/dashboardScreen/myprofile.dart';
+import 'package:academy/userScreens/profiile/myprofile.dart';
 
 import 'package:flutter/material.dart';
 

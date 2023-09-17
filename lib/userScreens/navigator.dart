@@ -3,6 +3,8 @@ import 'package:academy/Books/mainBooksPage.dart';
 import 'package:academy/service/quotesPage.dart';
 import 'package:academy/userScreens/dashboardScreen/homepage.dart';
 import 'package:academy/userScreens/dashboardScreen/dashboard.dart';
+import 'package:academy/video/Reels/reelsMainPage.dart';
+import 'package:academy/video/videoNavigator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -33,7 +35,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   final DatabaseReference _databaseReference =
-  FirebaseDatabase.instance.reference();
+      FirebaseDatabase.instance.reference();
 
   int _currentIndex = 0;
 
@@ -47,6 +49,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   final List<Widget> _tabs = [
     HomePage(FirebaseAuth.instance.currentUser!.uid),
     const Dashboard(),
+    VideoNavigator(),
     MainBooksPage(),
     const SettingPage(),
   ];
@@ -63,8 +66,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
-    FirebaseFirestore.instance.collection('users');
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     return FutureBuilder<String?>(
       future: getCachedData(),
@@ -75,13 +77,15 @@ class _NavigatorPageState extends State<NavigatorPage> {
 
         if (cachedSnapshot.hasData && cachedSnapshot.data != null) {
           // Use cached data
-          final parsedData = json.decode(cachedSnapshot.data!); // Use appropriate parsing based on your data structure
+          final parsedData = json.decode(cachedSnapshot
+              .data!); // Use appropriate parsing based on your data structure
           return buildNavigatorPageWithData(parsedData);
         } else {
           // Data not found in shared preferences, fetch from the server
           return FutureBuilder<DocumentSnapshot>(
             future: users.doc(widget.userid).get(),
-            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasError) {
                 return const Text("Something went wrong");
               }
@@ -135,25 +139,31 @@ class _NavigatorPageState extends State<NavigatorPage> {
           },
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.white,),
-              label: 'Home',
-              backgroundColor: Colors.black87
-            ),
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ),
+                label: 'Home',
+                backgroundColor: Colors.black87),
             BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: 'Dashboard',
-                backgroundColor: Colors.black87
-            ),
+                icon: Icon(Icons.dashboard),
+                label: 'Dashboard',
+                backgroundColor: Colors.black87),
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book_sharp),
-              label: 'Books',
-                backgroundColor: Colors.black87
-            ),
+                icon: Icon(
+                  Icons.play_arrow,
+                  color: Colors.orange,
+                ),
+                label: 'Reels',
+                backgroundColor: Colors.black87),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-                backgroundColor: Colors.black87
-            ),
+                icon: Icon(Icons.menu_book_sharp),
+                label: 'Books',
+                backgroundColor: Colors.black87),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+                backgroundColor: Colors.black87),
           ],
         ),
         body: _tabs[_currentIndex],
@@ -161,6 +171,3 @@ class _NavigatorPageState extends State<NavigatorPage> {
     );
   }
 }
-
-
-

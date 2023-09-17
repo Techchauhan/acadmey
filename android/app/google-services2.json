@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "893108344546",
+    "project_id": "socialacademy-9758f",
+    "storage_bucket": "socialacademy-9758f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893108344546:android:994fe039ef7555fcfc70bb",
+        "android_client_info": {
+          "package_name": "com.example.academy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDebDv_AGtNFRUsCChkciHUpceDNbeFSBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

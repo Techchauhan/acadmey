@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -34,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
   User? user;
 
   @override
@@ -43,7 +42,8 @@ class _MyAppState extends State<MyApp> {
     user = _auth.currentUser;
 
     // Initialize FlutterLocalNotificationsPlugin
-    var initializationSettingsAndroid = AndroidInitializationSettings('app_icon'); // Replace 'app_icon' with your app's icon name
+    var initializationSettingsAndroid = AndroidInitializationSettings(
+        'app_icon'); // Replace 'app_icon' with your app's icon name
     // var initializationSettingsIOS = IOSInitializationSettings();
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -82,9 +82,9 @@ class _MyAppState extends State<MyApp> {
       priority: Priority.high,
     );
     // var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics,
-        // iOS: iOSPlatformChannelSpecifics
+    var platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      // iOS: iOSPlatformChannelSpecifics
     );
 
     await flutterLocalNotificationsPlugin.show(
@@ -107,8 +107,9 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: user != null
               ? NavigatorPage(
-            user!.uid, initialIndex: 0,
-          )
+                  user!.uid,
+                  initialIndex: 0,
+                )
               : const LoginScreen(),
         ),
       ),

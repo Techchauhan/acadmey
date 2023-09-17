@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class QuotesPage extends StatefulWidget {
-  const QuotesPage({super.key});
+  const QuotesPage({Key? key}) : super(key: key);
 
   @override
   _QuotesPageState createState() => _QuotesPageState();
@@ -13,16 +14,38 @@ class _QuotesPageState extends State<QuotesPage> {
   late int _currentQuoteIndex = 0;
 
   final List<String> dailyQuotes = [
-    '"The only way to do great work is to love what you do." \n- Steve Jobs',
-    "In three words I can sum up everything I've learned about life: it goes on. \n- Robert Frost'",
-    'The only limit to our realization of tomorrow will be our doubts of today. \n- Franklin D. Roosevelt',
-    "Success is not final, failure is not fatal: It is the courage to continue that counts. \n- Winston Churchill"
-    "The only thing necessary for the triumph of evil is for good men to do nothing. \n- Edmund Burke"
-     "The greatest glory in living lies not in never falling, but in rising every time we fall." "\n- Nelson Mandela"
-   "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment." "\n- Ralph Waldo Emerson"
-  "In the end, we will remember not the words of our enemies, but the silence of our friends." "\n- Martin Luther King Jr."
+  '“The only way to do great work is to love what you do.” - Steve Jobs',
+  '“In three words I can sum up everything I’ve learned about life: it goes on.” - Robert Frost',
+  '“You miss 100% of the shots you don’t take.” - Wayne Gretzky',
+  '“The greatest glory in living lies not in never falling, but in rising every time we fall.” - Nelson Mandela',
+ " '“Life is what happens when you're busy making other plans.” - John Lennon',"
+  '“The only thing necessary for the triumph of evil is for good men to do nothing.” - Edmund Burke',
+  '“To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.” - Ralph Waldo Emerson',
+  '“The best way to predict the future is to create it.” - Peter Drucker',
+  '“Success is not final, failure is not fatal: it is the courage to continue that counts.” - Winston Churchill',
+  "'“Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.” - Albert Einstein',"
+  '“The only thing we have to fear is fear itself.” - Franklin D. Roosevelt',
+  '“In the end, we will remember not the words of our enemies, but the silence of our friends.” - Martin Luther King Jr.',
+  "'“Don't cry because it's over, smile because it happened.” - Dr. Seuss',"
+  '“The road to hell is paved with adverbs.” - Stephen King',
+  '“To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.” - Ralph Waldo Emerson',
+  '“The only way to do great work is to love what you do.” - Steve Jobs',
+  '“In three words I can sum up everything I’ve learned about life: it goes on.” - Robert Frost',
+  '“You miss 100% of the shots you don’t take.” - Wayne Gretzky',
+  '“The greatest glory in living lies not in never falling, but in rising every time we fall.” - Nelson Mandela',
+"  '“Life is what happens when you're busy making other plans.” - John Lennon',"
 
-    // Add more quotes here
+  '“The only thing necessary for the triumph of evil is for good men to do nothing.” - Edmund Burke',
+  '“To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.” - Ralph Waldo Emerson',
+  '“The best way to predict the future is to create it.” - Peter Drucker',
+  '“Success is not final, failure is not fatal: it is the courage to continue that counts.” - Winston Churchill',
+  "'“Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.” - Albert Einstein',"
+  '“The only thing we have to fear is fear itself.” - Franklin D. Roosevelt',
+  "“Don't cry because it's over, smile because it happened.” - Dr. Seuss',"
+  '“In the end, we will remember not the words of our enemies, but the silence of our friends.” - Martin Luther King Jr.',
+  '“The road to hell is paved with adverbs.” - Stephen King',
+
+  // Add more quotes here
   ];
 
   @override
@@ -33,8 +56,8 @@ class _QuotesPageState extends State<QuotesPage> {
 
   Future<void> _loadData() async {
     _prefs = await SharedPreferences.getInstance();
-    _lastQuoteChangeDate =
-        _prefs.get('lastQuoteChangeDate') as DateTime? ?? DateTime.now().subtract(const Duration(days: 1));
+    _lastQuoteChangeDate = DateTime.parse(
+        _prefs.getString('lastQuoteChangeDate') ?? DateTime.now().toIso8601String());
     _currentQuoteIndex = _prefs.getInt('currentQuoteIndex') ?? 0;
     _updateDailyQuoteIfNeeded();
   }
@@ -61,17 +84,17 @@ class _QuotesPageState extends State<QuotesPage> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-          width: double.infinity, // Make the container expand to the width of the screen
+          width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.white, // Use white color for the whiteboard background
-            borderRadius: BorderRadius.circular(10.0), // Add rounded corners for a realistic look
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
             border: Border.all(
-              color: Colors.black87, // Add a border to resemble the edges of a whiteboard
+              color: Colors.black87,
               width: 2.0,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2), // Add a slight shadow for depth
+                color: Colors.black.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 4,
                 offset: const Offset(0, 2),
@@ -88,7 +111,7 @@ class _QuotesPageState extends State<QuotesPage> {
                   "Quotes of the Day!",
                   style: TextStyle(
                     color: Colors.black26,
-                    fontSize: 20, // Increase font size for the title
+                    fontSize: 20,
                   ),
                 ),
                 const SizedBox(height: 10,),
@@ -99,7 +122,7 @@ class _QuotesPageState extends State<QuotesPage> {
                     color: Colors.black,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0, // Add some letter spacing for a handwritten look
+                    letterSpacing: 1.0,
                   ),
                 ),
               ],
@@ -108,6 +131,5 @@ class _QuotesPageState extends State<QuotesPage> {
         ),
       ),
     );
-
   }
 }

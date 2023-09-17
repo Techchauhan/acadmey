@@ -9,7 +9,7 @@ import 'package:academy/teachers/TeacherListForHomeScreen.dart';
 import 'package:academy/teachers/allTeacherView.dart';
 import 'package:academy/userScreens/Downloads/downloader.dart';
 import 'package:academy/userScreens/authentication/login_screen.dart';
-import 'package:academy/userScreens/dashboardScreen/myprofile.dart';
+import 'package:academy/userScreens/profiile/myprofile.dart';
 import 'package:academy/userScreens/navigator.dart';
 import 'package:academy/widgets/CustomProgressIndicator3.dart';
 import 'package:academy/widgets/animatedButton.dart';
