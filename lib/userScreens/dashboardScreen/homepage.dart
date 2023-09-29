@@ -153,7 +153,7 @@ class _MainHomePageState extends State<MainHomePage> {
                   ),
                   Text(
 
-                      data['firstName'] != null && data['firstName'].toString().isNotEmpty
+                      data['displayName'] != null && data['firstName'].toString().isNotEmpty
                           ? data['firstName'].toString()
                           : FirebaseAuth.instance.currentUser!.displayName.toString(),
                       style: const TextStyle(
@@ -258,7 +258,9 @@ class _MainHomePageState extends State<MainHomePage> {
             if (snapshot.hasData && snapshot.data != null) {
               final courseData = snapshot.data?.snapshot.value
               as Map<dynamic, dynamic>;
-
+              String displayName = data['firstName'] != null && FirebaseAuth.instance.currentUser!.displayName != null
+                  ? FirebaseAuth.instance.currentUser!.displayName.toString()
+                  : data['displayName'];
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -295,10 +297,10 @@ class _MainHomePageState extends State<MainHomePage> {
                                                 FontWeight.bold,
                                                 fontSize: 26),
                                           ),
-                                          Text(
-                                              data['firstName'] != null && data['firstName'].toString().isNotEmpty
-                                                  ? data['firstName'].toString()
-                                                  : FirebaseAuth.instance.currentUser!.displayName.toString(),
+                                          Text(   displayName,
+                                              // data['firstName'] != null && data['firstName'].toString().isNotEmpty
+                                              //     ? data['firstName'].toString()
+                                              //     : FirebaseAuth.instance.currentUser!.displayName.toString(),
                                               style: const TextStyle(
                                                   color: Colors.black,
                                                   fontWeight:

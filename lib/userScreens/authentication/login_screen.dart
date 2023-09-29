@@ -10,7 +10,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -279,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: MyProgressIndicator2(),
         ),
       );
@@ -367,13 +366,5 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Error getting and storing FCM token: $e');
     }
   }
-
-
-
-
-//Function for Reset Password
-
-
-
-
+  
 }

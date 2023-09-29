@@ -1,0 +1,60 @@
+[33mcommit 888d964b26f7872c27cd9ee41bd0afbee0481102[m[33m ([m[1;36mHEAD -> [m[1;32morigin[m[33m)[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Thu Sep 7 23:56:26 2023 +0530
+
+    Edit Few Lines of code in the Exploring course page Screen.
+    Font of the description get small and the size of the image get fix.
+
+[33mcommit 3eabe5e727152929efcd359fd7653d5a69019cfe[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Wed Sep 6 20:27:32 2023 +0530
+
+    Added the page where there is a controller and the student are able to select the live course and VideoLectureCourse.
+    So, there are two pages LiveClassesCourse.dart and VideoLecturecourse.dart.
+    
+    Added one more option over the screen these options shows all the teacher over screen in horizontal list format.
+
+[33mcommit 9a2cc16cdfbbc79700cf2210d83fc503451a18bd[m[33m ([m[1;32mnotification[m[33m)[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Fri Sep 1 22:58:33 2023 +0530
+
+    adding the download page
+
+[33mcommit 5ea96b4e08dac4cb4baa5bb2b929a7b86cb642b1[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Fri Sep 1 22:50:46 2023 +0530
+
+    Generate the token when the user login with user login button and store into the firebase and if the button is already exsist the update the token with the new token.
+    
+    Solve some Basic errors like in the userchat.dart (the error is not displaying the proper name of the students).
+    
+    Adding the Download button in the app bar so that they can navigate to downloader.dart where there is a two screen pdfDownloads.dart and videoDownloads.dart where shows the downloaded data to the user.
+
+[33mcommit 96a6e5e67d9926604c5ba5514acf2a0210ffc0b9[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Fri Sep 1 02:47:02 2023 +0530
+
+    Solve the Google SignIn button Error. collection.user.set data into the firebase.
+    
+    Adding the three Progress indicators.
+    1 for messaging.
+    1 for authenticatoin
+    1 for normal_loading
+
+[33mcommit 3dd8c06593053654fb0c9e58adfd73b99e62e3de[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Wed Aug 30 14:00:00 2023 +0530
+
+    Edited the Video LectureVideoScreen.dart. Add the videoUrl of the fetch Video url.
+
+[33mcommit 89472b778c285916370aba8c9a4e1e71010f94b1[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Tue Aug 29 22:35:30 2023 +0530
+
+    const modification in the maxium files
+
+[33mcommit 7a40302bc818f02ba3979e9a68e44d146ac59995[m
+Author: Techchauhan <rishabkumarchauhan@gmail.com>
+Date:   Tue Aug 29 21:33:49 2023 +0530
+
+    First
