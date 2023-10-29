@@ -183,16 +183,14 @@ class _MyProfileState extends State<MyProfile> {
                           ),
                         ),
                         //Here I want to show the three scrolling tab.
-                        Expanded(
+                        const Expanded(
                           child: Scaffold(
                             body: DefaultTabController(
                               length: 4, // Number of tabs
                               child: Column(
                                 children: [
-                                  Container(
-                                      // ... Your existing container code ...
-                                      ),
-                                  const TabBar(
+
+                                  TabBar(
                                     tabs: [
                                       Column(
                                         children: [
@@ -223,7 +221,7 @@ class _MyProfileState extends State<MyProfile> {
                                       )
                                     ],
                                   ),
-                                  const Expanded(
+                                  Expanded(
                                     child: TabBarView(
                                       children: [
                                         // Content of Tab 1

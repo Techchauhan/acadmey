@@ -2,10 +2,10 @@ import 'package:academy/course/exploreCourse/courseDataController.dart';
 import 'package:academy/course/learnig/studentCourseScreen.dart';
 import 'package:academy/course/showallVideoCourse.dart';
 import 'package:academy/userScreens/navigator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:academy/main.dart';
 
 class CourseExplorationPage extends StatefulWidget {
@@ -18,7 +18,6 @@ class CourseExplorationPage extends StatefulWidget {
 }
 
 class _CourseExplorationPageState extends State<CourseExplorationPage> {
-
   Razorpay _razorpay = Razorpay();
   bool _isCoursePurchased = false;
   bool _isUserPurchased = false;
@@ -37,39 +36,60 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     String courseId = widget.courseId;
 
-    DatabaseEvent snapshot = await _databaseReference.child('users').child(userId).child('purchased_courses').once();
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
-    if (snapshot.snapshot.value != null) {
-      Map<dynamic, dynamic> purchasedCourses = snapshot.snapshot.value as Map;
-      _isUserPurchased = purchasedCourses.values.contains(courseId);
+    if (userSnapshot.exists) {
+      List<dynamic> purchasedCourses = userSnapshot['purchased_courses'];
+
+      if (purchasedCourses != null) {
+        _isUserPurchased = purchasedCourses.contains(courseId);
+      }
     }
 
     setState(() {});
   }
-
-
-
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Handle successful payment
     setState(() {
       _isCoursePurchased = true;
     });
-    String userId = FirebaseAuth.instance.currentUser!.uid; // Replace with the actual user ID
+
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     String courseId = widget.courseId;
 
-    // Update the user's database record with the purchased course
-    _databaseReference.child('users').child(userId).child('purchased_courses').push().set(courseId);
-    Navigator.pushReplacement(
+    // Get the course data for the course name
+    String courseName = courseData['title']; // You can customize this to get the course name as needed.
+
+    CollectionReference usersCollection =
+    FirebaseFirestore.instance.collection('users');
+
+    // Add the course ID to the user's purchased_courses
+    usersCollection.doc(userId).update({
+      'purchased_courses': FieldValue.arrayUnion([courseId]),
+    });
+
+    // Create a new document in the purchased_course subcollection
+    usersCollection.doc(userId).collection('purchased_course').doc(courseName).set({
+      'course_id': courseId,
+      'course_name': courseName,
+    });
+
+    Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => StudentCourseScreen(courseId: widget.courseId)),
+      MaterialPageRoute(
+          builder: (context) => ViewChaptersPage(courseId: widget.courseId)),
     );
+
     print('Payment success: Payment ID - ${response.paymentId}');
   }
 
+
   void _handlePaymentError(PaymentFailureResponse response) {
     // Handle payment failure
-    print('Payment error: Code - ${response.code}, Message - ${response.message}');
+    print(
+        'Payment error: Code - ${response.code}, Message - ${response.message}');
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -79,11 +99,14 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
 
   void _openCheckout() async {
     var options = {
-      'key': 'rzp_test_VY38lT9nyjeVqe',
+      'key': 'rzp_test_dVPsviFAnVwnDM',
       'amount': 1000, // Amount in paise (Indian currency)
       'name': courseData['title'],
       'description': 'Buy this course',
-      'prefill': {'contact': '6396219233', 'email': FirebaseAuth.instance.currentUser!.email.toString()},
+      'prefill': {
+        'contact': '6396219233',
+        'email': FirebaseAuth.instance.currentUser!.email.toString()
+      },
       'external': {
         'wallets': ['paytm']
       }
@@ -102,19 +125,18 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
     _razorpay.clear();
   }
 
-
-  final DatabaseReference _databaseReference = FirebaseDatabase.instance.reference();
-  Map<String, dynamic> courseData = {}; // Initialize an empty map
-
-
+  Map<String, dynamic> courseData = {};
 
   Future<void> _fetchCourseData() async {
     try {
-      final snapshot = await _databaseReference.child('courses').child(widget.courseId).get();
+      final snapshot = await FirebaseFirestore.instance
+          .collection('courses')
+          .doc(widget.courseId)
+          .get();
 
       if (snapshot.exists) {
         setState(() {
-          courseData = Map<String, dynamic>.from(snapshot.value as Map);
+          courseData = snapshot.data() as Map<String, dynamic>;
         });
       } else {
         print('No data available.');
@@ -127,157 +149,135 @@ class _CourseExplorationPageState extends State<CourseExplorationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        // Handle the back button press here
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,) )); // This pops the current page
-        return false; // Return false to prevent app from closing
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: BackButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => NavigatorPage(FirebaseAuth.instance.currentUser!.uid, initialIndex: 0,)),
-              );
-            },
-          ),
-          title:   Text(courseData.containsKey('title') ? courseData['title'] : '',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+    return Scaffold(
+      appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NavigatorPage(
+                      FirebaseAuth.instance.currentUser!.uid,
+                      initialIndex: 0)),
+            );
+          },
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Course Thumbnail
-              Container(
-                width: double.infinity,
-                height: 200, // Adjust the height as needed
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(courseData.containsKey('thumbnail')
-                        ? courseData['thumbnail']
-                        : ''),
-                    fit: BoxFit.cover,
-                  ),
+        title: Text(
+          courseData.containsKey('title') ? courseData['title'] : '',
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              height: 200,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(courseData.containsKey('thumbnail')
+                      ? courseData['thumbnail']
+                      : ''),
+                  fit: BoxFit.cover,
                 ),
               ),
-              // Scaffold(
-              //   appBar: AppBar(
-              //     bottom:  PreferredSize(
-              //       preferredSize: Size.fromHeight(48.0),
-              //       child: TabBar(
-              //         tabs: [
-              //           Tab(text: 'Description'),
-              //           Tab(text: 'Lectures'),
-              //           Tab(text: 'About'),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+            ),
+            const SizedBox(height: 16),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Description",
+                  style:
+                      TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(courseData.containsKey('description')
+                  ? courseData['description']
+                  : ''),
+            ),
+            const SizedBox(height: 16),
+            StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('courses')
+                  .doc(widget.courseId)
+                  .collection('chapters')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final chaptersData = snapshot.data!.docs;
 
-              const SizedBox(height: 16),
+                  if (chaptersData.isNotEmpty) {
+                    return ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: chaptersData.map((chapterDoc) {
+                        final chapterInfo = chapterDoc.data() as Map<String, dynamic>;
 
-
-
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Description", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500,),),
-              ),
-              // Course Description
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(courseData.containsKey('description') ? courseData['description'] : ''),
-              ),
-
-
-              const SizedBox(height: 16), // Add some spacing
-
-              // Chapters and Lectures
-              StreamBuilder(
-                stream: _databaseReference
-                    .child('courses')
-                    .child(widget.courseId)
-                    .child('chapters')
-                    .onValue,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    final chaptersData = snapshot.data?.snapshot.value;
-
-                    if (chaptersData is Map) {
-                      return ListView(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: chaptersData.entries.map((entry) {
-                          final chapterId = entry.key;
-                          final chapterInfo = entry.value as Map<dynamic, dynamic>;
-
-                          return ExpansionTile(
-                            title: Text(chapterInfo['title']),
-                            children: chapterInfo['lectures'] != null
-                                ? (chapterInfo['lectures'] as Map<dynamic, dynamic>)
-                                .entries
-                                .map((lectureEntry) {
-                              final lectureId = lectureEntry.key;
-                              final lectureInfo =
-                              lectureEntry.value as Map<dynamic, dynamic>;
-
-                              return ListTile(
-                                title: Text(lectureInfo['title']),
-                              );
-                            }).toList()
-                                : [], // Handle if lectures are null
-                          );
-                        }).toList(),
-                      );
-                    } else {
-                      return const Center(
-                        child: Text('No chapters available.'),
-                      );
-                    }
+                        return ExpansionTile(
+                          title: Text(chapterInfo['title']),
+                          children: [
+                            if (chapterInfo['lectures'] != null)
+                              ...chapterInfo['lectures'].map((lectureInfo) {
+                                return ListTile(
+                                  title: Text(lectureInfo['title']),
+                                );
+                              }).toList(),
+                          ],
+                        );
+                      }).toList(),
+                    );
                   } else {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: Text('No chapters available.'),
                     );
                   }
-                },
-              ),
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
 
-            ],
-          ),
 
+          ],
         ),
-        floatingActionButton: Container(
-
-          width: double.infinity,
-          color: Colors.white,
-          // padding: EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("₹ ${courseData['price']}", style: const TextStyle(color: Colors.black, fontSize: 20),),
-              ElevatedButton(
-
-                onPressed: _isUserPurchased ? ( ){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>StudentCourseScreen(courseId: widget.courseId)));} : _openCheckout,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // Background color
-                  onPrimary: Colors.white, // Text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Rounded corners
-                  ),
-                ),
-                child:   Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    _isUserPurchased ? 'View Course' : 'Buy Course',
-                    style: const TextStyle(fontSize: 16),
-                  ),
+      ),
+      floatingActionButton: Container(
+        width: double.infinity,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text("₹ ${courseData['price']}",
+                style: const TextStyle(color: Colors.black, fontSize: 20)),
+            ElevatedButton(
+              onPressed: _isUserPurchased
+                  ? () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ViewChaptersPage(
+                                  courseId: widget.courseId)));
+                    }
+                  : _openCheckout,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                onPrimary: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
-            ],
-          ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  _isUserPurchased ? 'View Course' : 'Buy Course',
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
